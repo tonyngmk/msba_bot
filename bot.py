@@ -268,7 +268,8 @@ All our courses are conducted in English, on NTU's vibrant campuses in Singapore
  
 Full-Time Programme (1 Year)
 ''')
-    context.bot.send_photo(chat_id=update.effective_chat.id, photo = "https://nbs.ntu.edu.sg/Programmes/Graduate/MScBusinessAnalytics/PublishingImages/MscBAMI.jpg")
+    context.bot.send_photo(chat_id=update.effective_chat.id, photo = "https://raw.githubusercontent.com/tonyngmk/msba_bot/master/progFullTime.png")
+    context.bot.send_message(chat_id=update.effective_chat.id, text='* The programme undergoes continuous improvement. As such, modules might be subject ​to changes')
     kb = [[telegram.KeyboardButton('➡ Learn more')],
           [telegram.KeyboardButton('🏠 Main menu')],
           [telegram.KeyboardButton('/No')]]
@@ -279,6 +280,18 @@ Full-Time Programme (1 Year)
 def progPartTime(update, context):
     user = update.message.from_user
     logger.info("User {} has selected to 'Learn More -> Programme Overview -> Programme Calendar (Part Time)'".format(user.first_name, update.message.text))
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+All our courses are conducted in English, on NTU's vibrant campuses in Singapore. Our classes are held during weekdays evenings at an easily accessible location at the One-North campus opposite Buona Vista MRT station^ and/ or on Saturday at the picturesque NTU main campus in Jurong West.
+
+^Classes on weekdays evenings will only be held at One-North campus from Trimester 2 onwards.
+
+Part-Time Programme (1.5 to 2 Years)
+''')
+    context.bot.send_photo(chat_id=update.effective_chat.id, photo = "https://raw.githubusercontent.com/tonyngmk/msba_bot/master/progPartTime.png")
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+*Students on the part time programme may choose to schedule their electives workload scheduled in Year 2 Trimester 3 to other Trimester in order to graduate earlier.Do speak to the Programme Lead after enrolling into this programme for more information​ ​​​​​
+
+** The programme undergoes continuous improvement. As such, modules might be subject ​to changes''')
     kb = [[telegram.KeyboardButton('➡ Learn more')],
           [telegram.KeyboardButton('🏠 Main menu')],
           [telegram.KeyboardButton('/No')]]
