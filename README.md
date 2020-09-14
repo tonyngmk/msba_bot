@@ -45,6 +45,12 @@ Created for Chatbot Assignment in BC3409 - AI in Accounting and Finance AY2020/2
   <img src="https://raw.githubusercontent.com/tonyngmk/msba_bot/master/msba_bot_join.png" />
 </p>
 
+### 3. /upload
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/tonyngmk/msba_bot/master/msba_bot_upload.png" />
+</p>
+
 ## Replication instructions
 
 ### 1. Google Cloud Platform (GCP)

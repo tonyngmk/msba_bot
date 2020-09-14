@@ -226,7 +226,7 @@ def joinMailList10(update, context):
                              reply_markup=ReplyKeyboardRemove())
     return ConversationHandler.END
     
-# create conversation below of the following thread
+# create conversation below of the following threadt
 
 def programmeOverview(update, context):
     user = update.message.from_user
