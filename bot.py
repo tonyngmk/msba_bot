@@ -13,25 +13,74 @@ from oauth2client.service_account import ServiceAccountCredentials
 from pprint import pprint
 import pandas as pd
 import re
+import pickle
+from google_auth_oauthlib.flow import Flow, InstalledAppFlow
+from googleapiclient.discovery import build
+from googleapiclient.http import MediaFileUpload, MediaIoBaseDownload
+from google.auth.transport.requests import Request
 
+# Google Sheets
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive"]
 creds = ServiceAccountCredentials.from_json_keyfile_name("creds.json", scope)
 client = gspread.authorize(creds)
 sheet = client.open("msbaMailingList") # file-level
-mailSheet = sheet.worksheet("mailingList") # sheet-level
+# mailSheet = sheet.worksheet("mailingList") # sheet-level
 # mailSheet = pd.DataFrame(mailSheet.get_all_records())
+
+# Google Drive
+CLIENT_SECRET_FILE = 'client_secrets.json'
+API_NAME = 'drive'
+API_VERSION = 'v3'
+SCOPES =['https://www.googleapis.com/auth/drive']
+def Create_Service(client_secret_file, api_name, api_version, *scopes):
+    print(client_secret_file, api_name, api_version, scopes, sep='-')
+    CLIENT_SECRET_FILE = client_secret_file
+    API_SERVICE_NAME = api_name
+    API_VERSION = api_version
+    SCOPES = [scope for scope in scopes[0]]
+    print(SCOPES)
+
+    cred = None
+
+    pickle_file = f'token_{API_SERVICE_NAME}_{API_VERSION}.pickle'
+    # print(pickle_file)
+
+    if os.path.exists(pickle_file):
+        with open(pickle_file, 'rb') as token:
+            cred = pickle.load(token)
+
+    if not cred or not cred.valid:
+        if cred and cred.expired and cred.refresh_token:
+            cred.refresh(Request())
+        else:
+            flow = InstalledAppFlow.from_client_secrets_file(CLIENT_SECRET_FILE, SCOPES)
+            cred = flow.run_local_server()
+
+        with open(pickle_file, 'wb') as token:
+            pickle.dump(cred, token)
+
+    try:
+        service = build(API_SERVICE_NAME, API_VERSION, credentials=cred)
+        print(API_SERVICE_NAME, 'service created successfully')
+        return service
+    except Exception as e:
+        print('Unable to connect.')
+        print(e)
+        return None
+service = Create_Service(CLIENT_SECRET_FILE, API_NAME, API_VERSION, SCOPES)
+# folder_id = '1BklyVg6ZYP1jRnAZBdRWdzumDrcoWCd6' # Folder to upload to (back of gdrive link)
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                      level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# newUser2, CONT, DATE, TIME, OVER_1830H, OVER_1830H_2, GETATT1 = range(7) # states
-# reason_cache, userInputName, gmail, day_cache, date_cache, time_cache = range(6) # variables
+
+firstName, lastName, email, contactNo, citizenship, country, city, jobTitle, workExperience, startIntention = range(10) # variables
+cvName, salutations, fName, lName, mail, contact, citzen, countryRegion, job, yrsOfWorkExp, programmeInterested = range(11)
 
 CONT, LEARNMORE2, LEARNMORECATCH, PROGOVERVIEW2, MENUORNO, ADMREQ2, CAREERDEVT2 = range(7) # states
-firstName, lastName, email, contactNo, citizenship, country, city, jobTitle, workExperience, startIntention = range(10) # variables
 mailListThread_1, mailListThread_2, mailListThread_3, mailListThread_4, mailListThread_5, mailListThread_6, mailListThread_7, mailListThread_8, mailListThread_9, mailListThread_10 = range(10)
-uploadCVThread_1, uploadCVThread_2 =range(2)
+uploadCVThread_1, uploadCVThread_2, uploadCVThread_3, uploadCVThread_4, uploadCVThread_5, uploadCVThread_6, uploadCVThread_7, uploadCVThread_8, uploadCVThread_9, uploadCVThread_10, uploadCVThread_11 = range(11)
 
 def start(update, context):
     user = update.message.from_user
@@ -168,6 +217,7 @@ def joinMailList10(update, context):
     global startIntention
     startIntention = update.message.text
     array = [user.id, user.first_name, user.last_name, user.full_name, user.username, firstName, lastName, email, contactNo, citizenship, country, city, jobTitle, workExperience, startIntention]
+    mailSheet = sheet.worksheet("mailingList") # sheet-level
     df = pd.DataFrame(mailSheet.get_all_records())
     df.loc[len(df)] = array
     mailSheet.update([df.columns.values.tolist()] + df.values.tolist())
@@ -876,22 +926,131 @@ def uploadCV0(update, context):
     user = update.message.from_user
     logger.info("User %s initiated uploading of CV via /upload.", user.first_name)
     context.bot.send_message(chat_id=update.effective_chat.id, text="🙏 Thank you for your enthusiasm 🙏")
-    update.message.reply_text("➡ Please attach your CV following this message.\n\n _You do not have to input a caption._\n\n Alternatively, type /No anywhere to cancel.", parse_mode=telegram.ParseMode.MARKDOWN)
+    update.message.reply_text("➡ Please attach your CV for a pre-assessment is a great way to begin a dialogue with our Admissions team following this message.\n\n _You do not have to input a caption._\n\n Alternatively, type /No anywhere to cancel.", parse_mode=telegram.ParseMode.MARKDOWN)
     return uploadCVThread_1
 
 def uploadCV1(update, context):
     user = update.message.from_user
-    logger.info("User {} has uploaded document {}.".format(user.first_name, update.message.document.file_name))
+    logger.info("1/11 User {} has uploaded document {}.".format(user.first_name, update.message.document.file_name))
+    context.bot.send_message(chat_id=update.effective_chat.id, text="⏳ Processing... one moment please")
+    global cvName
+    cvName = "{}_{}".format(update.message.document.file_name, update.message.document.file_id)
+    with open("preAssessmentCVs/{}".format(cvName), 'wb') as f: # copy to cwd 
+        update.message.document.get_file().download(out=f)
+    folder_id = '1BklyVg6ZYP1jRnAZBdRWdzumDrcoWCd6' # Folder to upload to (back of gdrive link)
+    file_metadata = {'name': cvName, 'parents': [folder_id]}
+    media = MediaFileUpload("preAssessmentCVs/{}".format(cvName))
+    service.files().create(body=file_metadata, media_body=media, fields='id').execute()
     context.bot.send_message(chat_id=update.effective_chat.id, text="🙏 Thank you {}, we have received your document: {} 🙏".format(user.first_name, update.message.document.file_name))
-    # with open("{}".format(update.message.document.file_name), 'wb') as f: # copy to cwd 
-        # update.message.document.get_file().download(out=f)
-    update.message.reply_text("➡ Pause.\n\n Alternatively, type /No anywhere to cancel.")
+    kb = [[telegram.KeyboardButton('Mr')],
+          [telegram.KeyboardButton('Mrs')],
+          [telegram.KeyboardButton('Miss')],
+          [telegram.KeyboardButton('Ms')],
+          [telegram.KeyboardButton('Mdm')],
+          [telegram.KeyboardButton('Dr')],
+          [telegram.KeyboardButton('Professor')]
+          ]
+    kb_markup = telegram.ReplyKeyboardMarkup(kb, one_time_keyboard=True)
+    update.message.reply_text("➡ Please select your most appropriate *Salutations*.\n\n Alternatively, type /No anywhere to cancel.", reply_markup=kb_markup, parse_mode=telegram.ParseMode.MARKDOWN)
     return uploadCVThread_2
 
 def uploadCV2(update, context):
     user = update.message.from_user
-    pass
+    logger.info("2/11 User {} has selected Salutations of {}".format(user.first_name, update.message.text))
+    global salutations
+    salutations = update.message.text
+    update.message.reply_text("⌨ Next, please type in your *First Name* in the chatbox: \n\n Alternatively, type /No anytime to cancel.'⌨", parse_mode=telegram.ParseMode.MARKDOWN)
+    return uploadCVThread_3
+
+def uploadCV3(update, context):
+    user = update.message.from_user
+    logger.info("3/11 User {} has selected First Name of {}".format(user.first_name, update.message.text))
+    global fName
+    fName = update.message.text
+    update.message.reply_text("⌨ Next, please type in your *Last Name* in the chatbox: \n\n Alternatively, type /No anytime to cancel.'⌨", parse_mode=telegram.ParseMode.MARKDOWN)
+    return uploadCVThread_4
+
+def uploadCV4(update, context):
+    user = update.message.from_user
+    logger.info("4/11 User {} has selected Last Name of {}".format(user.first_name, update.message.text))
+    global lName
+    lName = update.message.text
+    update.message.reply_text("⌨ Next, please type in your *Email Address* in the chatbox: \n\n Alternatively, type /No anytime to cancel.'⌨", parse_mode=telegram.ParseMode.MARKDOWN)
+    return uploadCVThread_5
     
+def uploadCV5(update, context):
+    user = update.message.from_user
+    logger.info("5/11 User {} has selected Email Address of {}".format(user.first_name, update.message.text))
+    global mail
+    mail = update.message.text
+    update.message.reply_text("⌨ Next, please type in your *Contact Number* in the chatbox: \n\n Alternatively, type /No anytime to cancel.'⌨", parse_mode=telegram.ParseMode.MARKDOWN)
+    return uploadCVThread_6
+
+def uploadCV6(update, context):
+    user = update.message.from_user
+    logger.info("6/11 User {} has selected Contact Number of {}".format(user.first_name, update.message.text))
+    global contact
+    contact = update.message.text
+    update.message.reply_text("⌨ Next, please type in your *Citizenship* in the chatbox: \n\n Alternatively, type /No anytime to cancel.'⌨", parse_mode=telegram.ParseMode.MARKDOWN)
+    return uploadCVThread_7
+    
+def uploadCV7(update, context):
+    user = update.message.from_user
+    logger.info("7/11 User {} has selected Citizenship of {}".format(user.first_name, update.message.text))
+    global citzen
+    citzen = update.message.text
+    update.message.reply_text("⌨ Next, please type in your *Country/Region of Residence* in the chatbox: \n\n Alternatively, type /No anytime to cancel.'⌨", parse_mode=telegram.ParseMode.MARKDOWN)
+    return uploadCVThread_8
+    
+def uploadCV8(update, context):
+    user = update.message.from_user
+    logger.info("8/11 User {} has selected Country/Region of Residence of {}".format(user.first_name, update.message.text))
+    global countryRegion
+    countryRegion = update.message.text
+    update.message.reply_text("⌨ Next, please type in your *Job Title* in the chatbox: \n\n Alternatively, type /No anytime to cancel.'⌨", parse_mode=telegram.ParseMode.MARKDOWN)
+    return uploadCVThread_9
+
+def uploadCV9(update, context):
+    user = update.message.from_user
+    logger.info("8/11 User {} has selected Job Title of {}".format(user.first_name, update.message.text))
+    global job
+    job = update.message.text
+    update.message.reply_text("⌨ Next, please type in your *Years of Working Experience* in the chatbox: \n\n Alternatively, type /No anytime to cancel.'⌨", parse_mode=telegram.ParseMode.MARKDOWN)
+    return uploadCVThread_10
+
+def uploadCV10(update, context):
+    user = update.message.from_user
+    logger.info("9/11 User {} has selected Years of Working Experience of {}".format(user.first_name, update.message.text))
+    global yrsOfWorkExp
+    yrsOfWorkExp = update.message.text
+    kb = [[telegram.KeyboardButton('Nanyang MBA')],
+          [telegram.KeyboardButton('Nanyang Professional MBA')],
+          [telegram.KeyboardButton('Nanyang Executive MBA')],
+          [telegram.KeyboardButton('Nanyang Fellows MBA')],
+          [telegram.KeyboardButton('MSc Accountancy')],
+          [telegram.KeyboardButton('MSc Business Analytics')],
+          [telegram.KeyboardButton('MSc Financial Engineering')],
+          [telegram.KeyboardButton('MSc Marketing Science')],
+          [telegram.KeyboardButton('Berkeley-Nanyang Advanced Management Programme')]]
+    kb_markup = telegram.ReplyKeyboardMarkup(kb, one_time_keyboard=True)
+    update.message.reply_text("⌨ Next, please select the *Programme* you are interested in: \n\n Alternatively, type /No anytime to cancel.'⌨", reply_markup=kb_markup, parse_mode=telegram.ParseMode.MARKDOWN)
+    return uploadCVThread_11
+    
+def uploadCV11(update, context):
+    user = update.message.from_user
+    logger.info("9/11 User {} has selected Programme Interest of: {}".format(user.first_name, update.message.text))
+    global programmeInterested
+    programmeInterested = update.message.text
+    array = [user.id, user.first_name, user.last_name, user.full_name, user.username, cvName, salutations, fName, lName, mail, contact, citzen, countryRegion, job, yrsOfWorkExp, programmeInterested]
+    preAssessment = sheet.worksheet("preAssessment") # sheet-level
+    df = pd.DataFrame(preAssessment.get_all_records())
+    df.loc[len(df)] = array
+    preAssessment.update([df.columns.values.tolist()] + df.values.tolist())
+    context.bot.send_message(chat_id=update.effective_chat.id, text="🙏 Thank you! Your application have been successfully recorded! 🎉 ")
+    context.bot.send_message(chat_id=update.effective_chat.id, text="Bye! Hope we can talk again soon. You know where to (/start) 😁",
+                             reply_markup=ReplyKeyboardRemove())
+    return ConversationHandler.END
+
 def cancel(update, context):
     user = update.message.from_user
     logger.info("User %s canceled the conversation via /No.", user.first_name)
@@ -907,6 +1066,7 @@ def help(update, context):
 *Commands:*
 /start - Start the conversation
 /join - Join mailing list
+/upload - Upload CV for pre-assessment
 /help - See this again
 ''', parse_mode=telegram.ParseMode.MARKDOWN)
 
@@ -969,6 +1129,15 @@ def main():
         states={
             uploadCVThread_1 : [MessageHandler(Filters.document, uploadCV1)],
             uploadCVThread_2 : [MessageHandler(Filters.text, uploadCV2)],
+            uploadCVThread_3 : [MessageHandler(Filters.text, uploadCV3)],
+            uploadCVThread_4 : [MessageHandler(Filters.text, uploadCV4)],
+            uploadCVThread_5 : [MessageHandler(Filters.regex('(.*)@(.*)\.(.*)$'), uploadCV5)],
+            uploadCVThread_6 : [MessageHandler(Filters.text, uploadCV6)],
+            uploadCVThread_7 : [MessageHandler(Filters.text, uploadCV7)],
+            uploadCVThread_8 : [MessageHandler(Filters.text, uploadCV8)],
+            uploadCVThread_9 : [MessageHandler(Filters.text, uploadCV9)],
+            uploadCVThread_10 : [MessageHandler(Filters.text, uploadCV10)],
+            uploadCVThread_11 : [MessageHandler(Filters.text, uploadCV11)]
         },
         fallbacks=[CommandHandler('No', cancel)])
     dispatcher.add_handler(upload_CV_conv_handler)  

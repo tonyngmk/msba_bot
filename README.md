@@ -28,6 +28,15 @@ Steps to obtain credentials for Google Drive API:
 Integrating Drive with Sheets
 - Google Sheets API > Enable
 
+### 1.3 Google APIs & Service
+
+1. Ensure you have a project created and Google Drive API enabled.
+2. APIs & Service > Credentials > Create Credentials > Create OAuth client ID
+3. Application Type: Web application
+4. Authorized JavaScript Origins URLs: http://localhost:8080
+5. Authorized redirect URls: http://localhost:8080/
+6. Download client secrets and rename as client_secrets.json and move to cwd
+
 ### 2. Python 
 
 python-telegram-bot is used to talk from python-telegram, gspread is used to talk from python-(google spreadsheet)
@@ -51,10 +60,19 @@ In essence, the bot is able to query and insert rows to gsheets directly.
 - delete_row(rowNo)
 - update_cell(rowNo, colNo, value)
 
-####### Sheet integrated in bot:
+###### Sheet integrated in bot:
 - Mailing List
+- Pre-Assessment
 
-#### 2.2 Python-Telegram
+#### 2.2 Google
+
+Google-API is a library in Python that can be used to talk to Google Drive.
+
+	python3 -m pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
+
+
+
+#### 2.3 Python-Telegram
 
 	python3 -m pip install --user python-telegram-bot
 
