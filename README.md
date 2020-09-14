@@ -91,6 +91,8 @@ I've tried running on free tier t2 micro and the CPU Credit Usage for 2 bots is 
 	python3 -m pip install --user python-telegram-bot
 
 	python3 -m pip install --user gspread oauth2client
+	
+	python3 -m pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
 
 	python3 -m pip install --user pandas
 

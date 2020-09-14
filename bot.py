@@ -19,7 +19,7 @@ creds = ServiceAccountCredentials.from_json_keyfile_name("creds.json", scope)
 client = gspread.authorize(creds)
 sheet = client.open("msbaMailingList") # file-level
 mailSheet = sheet.worksheet("mailingList") # sheet-level
-mailSheet = pd.DataFrame(mailSheet.get_all_records())
+# mailSheet = pd.DataFrame(mailSheet.get_all_records())
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                      level=logging.INFO)
@@ -28,7 +28,10 @@ logger = logging.getLogger(__name__)
 # newUser2, CONT, DATE, TIME, OVER_1830H, OVER_1830H_2, GETATT1 = range(7) # states
 # reason_cache, userInputName, gmail, day_cache, date_cache, time_cache = range(6) # variables
 
-CONT, LEARNMORE2, LEARNMORECATCH, PROGOVERVIEW2, MENUORNO, ADMREQ2, CAREERDEVT2 = range(7)
+CONT, LEARNMORE2, LEARNMORECATCH, PROGOVERVIEW2, MENUORNO, ADMREQ2, CAREERDEVT2 = range(7) # states
+firstName, lastName, email, contactNo, citizenship, country, city, jobTitle, workExperience, startIntention = range(10) # variables
+mailListThread_1, mailListThread_2, mailListThread_3, mailListThread_4, mailListThread_5, mailListThread_6, mailListThread_7, mailListThread_8, mailListThread_9, mailListThread_10 = range(10)
+uploadCVThread_1, uploadCVThread_2 =range(2)
 
 def start(update, context):
     user = update.message.from_user
@@ -46,7 +49,8 @@ The programme can be completed on a full time (1 year) or on a part-time (1.5 ye
     ''')
     kb = [[telegram.KeyboardButton('➡ Learn more')],
           [telegram.KeyboardButton('📩 Download brochure')],
-          [telegram.KeyboardButton('💌 Join mailing list')]]
+          # [telegram.KeyboardButton('💌 Join mailing list')]
+          ]
     kb_markup = telegram.ReplyKeyboardMarkup(kb, one_time_keyboard=True)
     update.message.reply_text("🚀 To continue, please kindly select one of the options 🚀\n\n Alternatively, type /No anywhere to cancel.", reply_markup=kb_markup)
     return CONT
@@ -61,25 +65,119 @@ def learnMore(update, context):
           [telegram.KeyboardButton('💯 Admission Requirements')],
           [telegram.KeyboardButton('🤝 Exchange Partners')],
           [telegram.KeyboardButton('💼 Career Development')],
-          [telegram.KeyboardButton('🧙‍♂️ FAQ')]]
+          [telegram.KeyboardButton('🧙‍♂️ FAQ')],
+          [telegram.KeyboardButton('📞 Contact Us')]]
     kb_markup = telegram.ReplyKeyboardMarkup(kb, one_time_keyboard=True)
     update.message.reply_text("🚀 To continue, please kindly select one of the options 🚀\n\n Alternatively, type /No anywhere to cancel.", reply_markup=kb_markup)
     return LEARNMORE2
 
 def dlBrochure(update, context):
     user = update.message.from_user
-    logger.info("User {} has selected to 'Download Brochure'".format(user.first_name, update.message.text))
+    logger.info("User {} has selected to 'Download Brochure' via /join".format(user.first_name, update.message.text))
     context.bot.send_message(chat_id=update.effective_chat.id, text="🙏 Thank you, please allow apporixmately 5s for the attachment to be sent. 🙏")
     context.bot.sendDocument(chat_id=update.effective_chat.id, document="https://raw.githubusercontent.com/tonyngmk/msba_bot/master/MSBA-Brochure-2020.pdf")
     context.bot.send_message(chat_id=update.effective_chat.id, text="🙏 That is all! Talk to me again soon, you know where to /start 😉")
     return ConversationHandler.END
     
-def joinMailList(update, context):
+def joinMailList0(update, context):
     user = update.message.from_user
-    logger.info("User {} has selected to 'Join Mailing List'".format(user.first_name, update.message.text))
-    context.bot.send_message(chat_id=update.effective_chat.id, text="🔥 Thank you for your enthusiasm! 🔥")  
+    logger.info("1/11 User {} has selected to 'Join Mailing List'".format(user.first_name, update.message.text))
+    context.bot.send_message(chat_id=update.effective_chat.id, text="🔥 Thank you for your enthusiasm! 🔥")
+    update.message.reply_text("⌨ Please type in your **First Name** in the chatbox: \n\n Alternatively, type /No anytime to cancel.'⌨", parse_mode=telegram.ParseMode.MARKDOWN)
+    return mailListThread_1
+
+def joinMailList1(update, context):
+    user = update.message.from_user
+    logger.info("2/11 User {} has typed {} for his/her First Name'".format(user.first_name, update.message.text))
+    global firstName
+    firstName = update.message.text
+    update.message.reply_text("⌨ Next, please type in your **Last Name** in the chatbox: \n\n Alternatively, type /No anytime to cancel.'⌨", parse_mode=telegram.ParseMode.MARKDOWN)
+    return mailListThread_2
+
+def joinMailList2(update, context):
+    user = update.message.from_user
+    logger.info("3/11 User {} has typed {} for his/her Last Name'".format(user.first_name, update.message.text))
+    global lastName
+    lastName = update.message.text
+    update.message.reply_text("⌨ Next, please type in your **Email** in the chatbox: \n\n Alternatively, type /No anytime to cancel.'⌨", parse_mode=telegram.ParseMode.MARKDOWN)
+    return mailListThread_3
+
+def joinMailList3(update, context):
+    user = update.message.from_user
+    logger.info("4/11 User {} has typed {} for his/her Email'".format(user.first_name, update.message.text))
+    global email
+    email = update.message.text
+    update.message.reply_text("⌨ Next, please type in your **Contact No** in the chatbox: \n\n Alternatively, type /No anytime to cancel.'⌨", parse_mode=telegram.ParseMode.MARKDOWN)
+    return mailListThread_4
+
+def joinMailList4(update, context):
+    user = update.message.from_user
+    logger.info("5/11 User {} has typed {} for his/her Contact No'".format(user.first_name, update.message.text))
+    global contactNo
+    contactNo = update.message.text
+    update.message.reply_text("⌨ Next, please type in your **Citizenship** in the chatbox: \n\n Alternatively, type /No anytime to cancel.'⌨", parse_mode=telegram.ParseMode.MARKDOWN)
+    return mailListThread_5
+
+def joinMailList5(update, context):
+    user = update.message.from_user
+    logger.info("6/11 User {} has typed {} for his/her Citizenship'".format(user.first_name, update.message.text))
+    global citizenship
+    citizenship = update.message.text
+    update.message.reply_text("⌨ Next, please type in your **Country** in the chatbox: \n\n Alternatively, type /No anytime to cancel.'⌨", parse_mode=telegram.ParseMode.MARKDOWN)
+    return mailListThread_6
+
+def joinMailList6(update, context):
+    user = update.message.from_user
+    logger.info("7/11 User {} has typed {} for his/her Country'".format(user.first_name, update.message.text))
+    global country
+    country = update.message.text
+    update.message.reply_text("⌨ Next, please type in your **City** in the chatbox: \n\n Alternatively, type /No anytime to cancel.'⌨", parse_mode=telegram.ParseMode.MARKDOWN)
+    return mailListThread_7
+
+def joinMailList7(update, context):
+    user = update.message.from_user
+    logger.info("8/11 User {} has typed {} for his/her City'".format(user.first_name, update.message.text))
+    global city
+    city = update.message.text
+    update.message.reply_text("⌨ Next, please type in your **Job Title** in the chatbox: \n\n Alternatively, type /No anytime to cancel.'⌨", parse_mode=telegram.ParseMode.MARKDOWN)
+    return mailListThread_8
+    
+def joinMailList8(update, context):
+    user = update.message.from_user
+    logger.info("9/11 User {} has typed {} for his/her Job Title'".format(user.first_name, update.message.text))
+    global jobTitle
+    jobTitle = update.message.text
+    update.message.reply_text("⌨ Next, please type in your **Work Experience** in the chatbox: \n\n Alternatively, type /No anytime to cancel.'⌨", parse_mode=telegram.ParseMode.MARKDOWN)
+    return mailListThread_9
+    
+def joinMailList9(update, context):
+    user = update.message.from_user
+    logger.info("10/11 User {} has typed {} for his/her Work Experience'".format(user.first_name, update.message.text))
+    global workExperience
+    workExperience = update.message.text
+    kb = [[telegram.KeyboardButton('In 2020')],
+          [telegram.KeyboardButton('In 2021')],
+          [telegram.KeyboardButton('Undecided')]]
+    kb_markup = telegram.ReplyKeyboardMarkup(kb, one_time_keyboard=True)
+    update.message.reply_text("⌨ Next, please select **When would you intend to start your postgrad degree?** \n\n Alternatively, type /No anytime to cancel.'⌨", parse_mode=telegram.ParseMode.MARKDOWN, reply_markup=kb_markup)
+    return mailListThread_10
+    
+def joinMailList10(update, context):
+    user = update.message.from_user
+    logger.info("11/11 User {} has typed {} for his/her Work Experience'".format(user.first_name, update.message.text))
+    global startIntention
+    startIntention = update.message.text
+    array = [user.id, user.first_name, user.last_name, user.full_name, user.username, firstName, lastName, email, contactNo, citizenship, country, city, jobTitle, workExperience, startIntention]
+    df = pd.DataFrame(mailSheet.get_all_records())
+    df.loc[len(df)] = array
+    mailSheet.update([df.columns.values.tolist()] + df.values.tolist())
+    context.bot.send_message(chat_id=update.effective_chat.id, text="🙏 Thank you! Your have successfully joined our mailing list! Do check your email for the initial email from us. 🎉 ")
+    context.bot.send_message(chat_id=update.effective_chat.id, text="Bye! Hope we can talk again soon. You know where to (/start) 😁",
+                             reply_markup=ReplyKeyboardRemove())
     return ConversationHandler.END
     
+# create conversation below of the following thread
+
 def programmeOverview(update, context):
     user = update.message.from_user
     logger.info("User {} has selected to 'Learn More -> Programme Overview'".format(user.first_name, update.message.text))
@@ -574,16 +672,226 @@ def careerDevt(update, context):
     user = update.message.from_user
     logger.info("User {} has selected to 'Learn More -> Career Development'".format(user.first_name, update.message.text))
     context.bot.send_message(chat_id=update.effective_chat.id, text='​​​​Let us be the accelerator in your career journey​')
-    context.bot.send_photo(chat_id=update.effective_chat.id, photo = "https://nbs.ntu.edu.sg/Style%20Library/bootstrap/styles/images/005-Final-selection.png")
+    context.bot.send_photo(chat_id=update.effective_chat.id, photo = "https://raw.githubusercontent.com/tonyngmk/msba_bot/master/careerDevt.png")
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+GSCDO is here to translate your NBS experience into the right job fits amidst a constantly changing and evolving corporate landscape. We ensure that you get the best start in your career journey.
 
-    
+A wide range of activities are organised throughout the academic year with you in mind. We are constantly pushing the boundaries to gear you up for a rewarding, yet fulfilling career.
+
+1-on-1 Career Counselling 
+Our specialised team of career advisors will work closely with you to develop and implement a robust career action plan. You can get expert advice on job search, resume and cover letter, as well as salary negotiation.
+
+Career Resources
+Exclusive to NBS students, CareerFIT is a one-stop portal which makes event registrations, internships, and job searches time-efficient. You can upload your resumes and submit job applications with just a single click.
+
+Resume Book
+This publication is sent to recruiters every month for them to identify and connect with candidates who would be a good fit for their organisations.
+
+Career Skills Workshops 
+We roll out practical workshops covering personal branding, effective networking, technical interviews, and business case.
+''')
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+Recruitment Events 
+Many leading businesses comes to NBS regularly find interns and potential full-time employees. There are also internship and career fairs, recruitment talks and speaker series for you to maximise your exposure to employers and make impactful connections
+
+Global Opportunities 
+We have also extended our outreach with companies outside Singapore to bring more employment opportunities to you.
+
+Internships 
+We encourage you to pursue experiential learning opportunities during your studies. As such, we source for internships that allows you to apply your business analytics knowledge in a real-world setting. In this way, you will gained tremendous competitive edge in the job market upon graduation.
+
+Tap Into Alumni Network
+The NBS alumni network spans more than 90 countries and includes about 50,000 graduates. Tap into the power of this community by connecting with alumni on LinkedIn or at get-together sessions organized by GSCDO. Many are accomplished professionals who are eager to mentor you and share experiences in NBS that facilitated their success.
+''')
     kb = [[telegram.KeyboardButton('🤝 Career Development Opportunities')],
           [telegram.KeyboardButton('🛣 Career Development Journey')]]
     kb_markup = telegram.ReplyKeyboardMarkup(kb, one_time_keyboard=True)
-    update.message.reply_text("🚀 Select the following options to learn more about application. 🚀\n\n Alternatively, type /No anywhere to cancel.", reply_markup=kb_markup)
+    update.message.reply_text("🚀 Select the following options to learn more about career development opportunities. 🚀\n\n Alternatively, type /No anywhere to cancel.", reply_markup=kb_markup)
     return CAREERDEVT2
 
+def careerDevtOppo(update, context):
+    user = update.message.from_user
+    logger.info("User {} has selected to 'Learn More -> Career Development -> Career Development Opportunities'".format(user.first_name, update.message.text))
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+As organisations integrate digital technologies into their business models, the relevance of business analytics has never been greater. Serving as a bridge between the business and technology functions, business analysts play a critical role in guiding businesses through digital disruption, analyzing and utilising data to drive digital transformation, redefine the customer experience and deliver profitable business outcomes. 
 
+In the hands of a skilled business analyst, data can be turned into a competitive advantage. Through the programme’s strong industry partnerships, participants can also take advantage of internship opportunities with industry leaders such as DBS, KPMG and GE Digital. These open doors to strong employment prospects, and provide relevant practical experience to prepare graduates to take on business analytics roles.
+''')
+    context.bot.send_photo(chat_id=update.effective_chat.id, photo = "https://nbs.ntu.edu.sg/Programmes/Graduate/MScBusinessAnalytics/PublishingImages/MSBACDL.png")
+    kb = [[telegram.KeyboardButton('➡ Learn more')],
+          [telegram.KeyboardButton('🏠 Main menu')],
+          [telegram.KeyboardButton('/No')]]
+    kb_markup = telegram.ReplyKeyboardMarkup(kb, one_time_keyboard=True)
+    update.message.reply_text("🚀 That is all. Do you want to learn more or return to the main menu? 🚀\n\n Alternatively, type /No anywhere to cancel.", reply_markup=kb_markup)
+    return MENUORNO
+
+def careerDevtJourney(update, context):
+    user = update.message.from_user
+    logger.info("User {} has selected to 'Learn More -> Career Development -> Career Development Journey'".format(user.first_name, update.message.text))
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+​​​​​At Graduate Studies Career Development Office (GSCDO), we are constantly pushing the envelope to help you realise your career aspirations. Whether you are looking to elevate your career or pivot into a new one, our focus is on empowering you to better understand yourself and capitalise on our resources and networking to help you attain your dream job.
+
+We offer a wide variety of services to help you navigate your way through your career. Thoughtfully created, these offerings will benefit you from the moment you enroll into NBS, right through your graduation.
+
+Career Development Journey
+
+GSCDO partners with each participant through a structured career journey.
+''')
+    context.bot.send_photo(chat_id=update.effective_chat.id, photo = "https://nbs.ntu.edu.sg/Programmes/Graduate/MScFE/PublishingImages/CareerDevelopmentJourney.PNG")
+    kb = [[telegram.KeyboardButton('➡ Learn more')],
+          [telegram.KeyboardButton('🏠 Main menu')],
+          [telegram.KeyboardButton('/No')]]
+    kb_markup = telegram.ReplyKeyboardMarkup(kb, one_time_keyboard=True)
+    update.message.reply_text("🚀 That is all. Do you want to learn more or return to the main menu? 🚀\n\n Alternatively, type /No anywhere to cancel.", reply_markup=kb_markup)
+    return MENUORNO
+
+## Submit CV to use Google Drive storage hopefully
+
+def faq(update, context):
+    user = update.message.from_user
+    logger.info("User {} has selected to 'Learn More -> FAQ'".format(user.first_name, update.message.text))
+    context.bot.send_message(chat_id=update.effective_chat.id, text='*GENERAL PROGRAMME QUESTIONS*', parse_mode=telegram.ParseMode.MARKDOWN)
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+_How does the NTU MSc Business Analytics Programme distinguish itself from other similar programmes?_
+
+The NTU MSc Business Analytics Programme aims to train graduates who can serve as a bridge between the business and technology functions. The programme trains graduates in the usage of current tools to perform data analysis. The curriculum features cutting-edge modules such as Analytics and Machine Learning.
+
+The programme also enjoys wide support and engagement from industry, with many leading industry partners shaping the curriculum to reflect industry needs. Our Industry links constitute a valuable resource, providing project and internship opportunities for our students.
+''', parse_mode=telegram.ParseMode.MARKDOWN)
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+_What type of students do you look for?_
+
+Students must first and foremost have a strong interest towards data analytics. They should develop a curiosity towards how the data relate to various business functions. While the programme does not have a preference on the academic background of the students, students must have some demonstrated abilities in quantitative skills. In addition, students must be able to communicate competently while working on group projects and be adept at presenting in formal business settings. Above all, candidates will need to demonstrate that they have the commitment, experience, motivation and potential to benefit from, and contribute to, the programme.
+''', parse_mode=telegram.ParseMode.MARKDOWN)
+    context.bot.send_message(chat_id=update.effective_chat.id, text='*APPLYING TO THE PROGRAMME*', parse_mode=telegram.ParseMode.MARKDOWN)
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+_Am I eligible for the programme? What are the admission requirements?_
+
+Individuals who hold a good undergraduate degree can apply for admission to the programme. GRE or GMAT is a compulsory requirement for admission to this programme. Work experience is preferred but not mandatory. Please click here for details on admission requirements.
+''', parse_mode=telegram.ParseMode.MARKDOWN)
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+_Do I need to take TOEFL or IELTS?_
+
+TOEFL is required if the medium of instruction during your undergraduate studies was not in English. IELTS may be accepted in place of TOEFL.
+''', parse_mode=telegram.ParseMode.MARKDOWN)
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+_What is an acceptable score for TOEFL or IELTS?_
+
+An acceptable score for TOEFL is 600 (paper based), 250 (computer based) and 100 (internet based). For IELTS, the acceptable score is 6.5 (overall) and above.
+''', parse_mode=telegram.ParseMode.MARKDOWN)
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+_What is an acceptable score for TOEFL or IELTS?_
+
+An acceptable score for TOEFL is 600 (paper based), 250 (computer based) and 100 (internet based). For IELTS, the acceptable score is 6.5 (overall) and above.
+''', parse_mode=telegram.ParseMode.MARKDOWN)
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+_Is GMAT or GRE required?_
+
+GMAT or GRE is required and a good GMAT or GRE score would enhance your application. The GMAT or GRE score provides us with another platform to evaluate your application especially if academic results, work experience, etc are not comparable with other applicants. Please note that a low GMAT or GRE score will not exclude your application from being considered. There is no minimum cut-off score for GMAT or GRE. Either the GMAT or GRE is accepted. You must have taken the test within the last five years of submitting your application.
+''', parse_mode=telegram.ParseMode.MARKDOWN)
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+_Can I be exempted from taking GMAT/GRE?_
+
+No, every applicant is required to take GMAT/GRE, regardless of their academic background, prior qualifications or work experience. We receive many applications, so it is very helpful to have one measure on which we can compare all candidates in the applicant pool.
+''', parse_mode=telegram.ParseMode.MARKDOWN)
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+_Can I apply before I have taken GMAT/GRE?_
+
+If the rest of your application is completed, you can send it to us, even if you have not taken the GMAT/GRE. However, you should take the test before the closing deadline which is the end of March. You should also indicate in the application form your GMAT/GRE test date so that we know when to expect your score report. We will not process your application without your GMAT/GRE score as your application is deemed incomplete without them. You should email us your unofficial scores as soon as you receive them and arrange with the test centre for the official score report to be sent to us.
+''', parse_mode=telegram.ParseMode.MARKDOWN)
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+_I do not have any work experience; can I apply for the programme?_
+
+Yes, you may. Although work experience is preferred, it is not a mandatory requirement.
+''', parse_mode=telegram.ParseMode.MARKDOWN)
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+_I am a foreigner. Am I eligible to apply?_
+
+Yes, this programme is open to international students. The University will assist you in obtaining your student visas and accommodation needs when you have confirmed acceptance to the programme.
+''', parse_mode=telegram.ParseMode.MARKDOWN)
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+_Are foreigners allowed to take the programme on a part time basis?_
+
+Foreigners who are currently working in Singapore and holding an employment pass may apply to take the programme on part-time basis. Those on valid dependant pass may also apply to the part-time programme. 
+''', parse_mode=telegram.ParseMode.MARKDOWN)
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+_Are all applicants invited for interview?_
+
+Due to the high number of applications, we regret that only those who are successful after the initial short-listing process would be invited for an interview.
+''', parse_mode=telegram.ParseMode.MARKDOWN)
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+_If I apply and am accepted this year, can I defer acceptance to next year?_
+
+Yes, applicants may request for a deferment. However, the applicant must accept the course offer and make the enrolment deposit before request for a deferment can be made. If successful, the applicant would be granted a deferment of acceptance to the course to the next intake. Subsequent requests for deferment would not be accepted. 
+''', parse_mode=telegram.ParseMode.MARKDOWN)
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+_May I find out the reason(s) why I was not accepted into the MSc Business Analytics programme?_
+
+Due to the high volume of applications received, we are unable to accede to requests for reasons of non-acceptance.
+''', parse_mode=telegram.ParseMode.MARKDOWN)
+    context.bot.send_message(chat_id=update.effective_chat.id, text='*PROGRAMME STRUCTURE*', parse_mode=telegram.ParseMode.MARKDOWN)
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+Can I apply for exemptions?
+
+Exemptions are considered on a case-by-case basis. Students may apply for exemption of up to a maximum of 3 subjects. Application for exemptions will open once you are enrolled.
+''', parse_mode=telegram.ParseMode.MARKDOWN)
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+_What are the course attendance requirements and workload?_
+
+You are expected to attend all the lectures and classes scheduled for each of the core and elective courses. You will need to set aside considerable amount of time for preparation, reading, group work, project work, private study, completion of assignments and revision for exams. The pace at which individuals work will obviously vary, but as a general rule of thumb, students will need to put in two to three hours of work outside of the classroom for every hour spent in the formal sessions.
+''', parse_mode=telegram.ParseMode.MARKDOWN)
+    context.bot.send_message(chat_id=update.effective_chat.id, text='*FEES & SCHOLARSHIP*', parse_mode=telegram.ParseMode.MARKDOWN)
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+Can CPF be used to pay tuition fees?
+
+No, the CPF Board does not allow CPF to be used for graduate programmes.
+''', parse_mode=telegram.ParseMode.MARKDOWN)
+    kb = [[telegram.KeyboardButton('➡ Learn more')],
+          [telegram.KeyboardButton('🏠 Main menu')],
+          [telegram.KeyboardButton('/No')]]
+    kb_markup = telegram.ReplyKeyboardMarkup(kb, one_time_keyboard=True)
+    update.message.reply_text("🚀 That is all. Do you want to learn more or return to the main menu? 🚀\n\n Alternatively, type /No anywhere to cancel.", reply_markup=kb_markup)
+    return MENUORNO
+
+def contactUs(update, context):
+    user = update.message.from_user
+    logger.info("User {} has selected to 'Learn More -> Contact Us'".format(user.first_name, update.message.text))
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+For enquiries on MSc Business Analytics, please contact: 
+<pre>
+| Tel:    | +65 6904 2048                                                           |
+|---------|-------------------------------------------------------------------------|
+| Email:  | msba@ntu.edu.sg                                                         |
+| Address | Nanyang Graduate Studies, S3-B3A-03 50 Nanyang Avenue, Singapore 639798 |
+</pre>
+''', parse_mode=telegram.ParseMode.HTML)
+    kb = [[telegram.KeyboardButton('➡ Learn more')],
+          [telegram.KeyboardButton('🏠 Main menu')],
+          [telegram.KeyboardButton('/No')]]
+    kb_markup = telegram.ReplyKeyboardMarkup(kb, one_time_keyboard=True)
+    update.message.reply_text("🚀 That is all. Do you want to learn more or return to the main menu? 🚀\n\n Alternatively, type /No anywhere to cancel.", reply_markup=kb_markup)
+    return MENUORNO
+    
+def uploadCV0(update, context):
+    user = update.message.from_user
+    logger.info("User %s initiated uploading of CV via /upload.", user.first_name)
+    context.bot.send_message(chat_id=update.effective_chat.id, text="🙏 Thank you for your enthusiasm 🙏")
+    update.message.reply_text("➡ Please attach your CV following this message.\n\n _You do not have to input a caption._\n\n Alternatively, type /No anywhere to cancel.", parse_mode=telegram.ParseMode.MARKDOWN)
+    return uploadCVThread_1
+
+def uploadCV1(update, context):
+    user = update.message.from_user
+    logger.info("User {} has uploaded document {}.".format(user.first_name, update.message.document.file_name))
+    context.bot.send_message(chat_id=update.effective_chat.id, text="🙏 Thank you {}, we have received your document: {} 🙏".format(user.first_name, update.message.document.file_name))
+    # with open("{}".format(update.message.document.file_name), 'wb') as f: # copy to cwd 
+        # update.message.document.get_file().download(out=f)
+    update.message.reply_text("➡ Pause.\n\n Alternatively, type /No anywhere to cancel.")
+    return uploadCVThread_2
+
+def uploadCV2(update, context):
+    user = update.message.from_user
+    pass
+    
 def cancel(update, context):
     user = update.message.from_user
     logger.info("User %s canceled the conversation via /No.", user.first_name)
@@ -596,9 +904,11 @@ def help(update, context):
     logger.info("User %s queried for commands via /help", user.first_name)
     context.bot.send_message(chat_id=update.effective_chat.id, text="😃 Don't worry, we're here to help! 😃")
     context.bot.send_message(chat_id=update.effective_chat.id, text='''
-Commands:
+*Commands:*
 /start - Start the conversation
-/help - This again lol''')
+/join - Join mailing list
+/help - See this again
+''', parse_mode=telegram.ParseMode.MARKDOWN)
 
 def main():
     f = open("botapi.txt")
@@ -607,17 +917,20 @@ def main():
     updater = Updater(TOKEN, use_context=True)
     dispatcher = updater.dispatcher
     
-    # Give Attendance
     msba_conv_handler = ConversationHandler(
         entry_points = [CommandHandler('start', start)],
         states={
             CONT : [MessageHandler(Filters.regex('Learn more'), learnMore),
                     MessageHandler(Filters.regex('Download brochure'), dlBrochure),
-                    MessageHandler(Filters.regex('Join mailing list'), joinMailList)],
+                    # MessageHandler(Filters.regex('mailing list'), joinMailList0)
+                    ],
             LEARNMORE2 : [MessageHandler(Filters.regex('Programme Overview'), programmeOverview),
                           MessageHandler(Filters.regex('Why MSc Business Analytics'), whyMSBA),
                           MessageHandler(Filters.regex('Admission Requirements'), admReq),
-                          MessageHandler(Filters.regex('Exchange Partners'), exchPartners)],
+                          MessageHandler(Filters.regex('Exchange Partners'), exchPartners),
+                          MessageHandler(Filters.regex('Career Development'), careerDevt),
+                          MessageHandler(Filters.regex('FAQ'), faq),
+                          MessageHandler(Filters.regex('Contact Us'), contactUs)],
             PROGOVERVIEW2 : [MessageHandler(Filters.regex('Module Information'), moduleInformation),
                              MessageHandler(Filters.regex('(Full Time)'), progFullTime),
                              MessageHandler(Filters.regex('(Part Time)'), progPartTime),
@@ -625,46 +938,41 @@ def main():
             LEARNMORECATCH : [MessageHandler(Filters.regex('Learn more'), learnMore)],
             ADMREQ2 : [MessageHandler(Filters.regex('💰 Tuition Fees & Financing'), tuitionFeeFinancing),
                        MessageHandler(Filters.regex('Application Process'), appProcess)],
+            CAREERDEVT2 : [MessageHandler(Filters.regex('🤝 Career Development Opportunities'), careerDevtOppo),
+                           MessageHandler(Filters.regex('🛣 Career Development Journey'), careerDevtJourney)],
+
             MENUORNO : [MessageHandler(Filters.regex('Learn more'), learnMore),
                         MessageHandler(Filters.regex('Main menu'), start)]
-            # CONT: [CommandHandler('Yes', cont_to_date), CommandHandler('No', cancel)],
-            # TIME: [MessageHandler(Filters.regex('^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), (\d{4})\/(0?[1-9]|1[012])\/(0?[1-9]|[12][0-9]|3[01])'), date_to_time)],
-            # OVER_1830H: [MessageHandler(Filters.regex('onwards$'), over_1830H),
-                        # MessageHandler(Filters.regex('1730H$'), time1730H   _to_end)],
-            # OVER_1830H_2: [MessageHandler(Filters.text, over_1830H_2)]
         },
         fallbacks=[CommandHandler('No', cancel)])
-    dispatcher.add_handler(msba_conv_handler)
-          
-    # kb = [[telegram.KeyboardButton('📝 Programme Overview')],
-          # [telegram.KeyboardButton('❓ Why MSc Business Analytics')],
-          # [telegram.KeyboardButton('💯 Admission Requirements')],
-          # [telegram.KeyboardButton('🤝 Exchange Partners')],
-          # [telegram.KeyboardButton('💼 Career Development')],
-          # [telegram.KeyboardButton('🧙‍♂️ FAQ')]]
+    dispatcher.add_handler(msba_conv_handler)        
+            
+    join_mail_list_conv_handler = ConversationHandler(
+        entry_points = [CommandHandler('join', joinMailList0)],
+        states={
+            mailListThread_1 : [MessageHandler(Filters.text, joinMailList1)],
+            mailListThread_2 : [MessageHandler(Filters.text, joinMailList2)],
+            mailListThread_3 : [MessageHandler(Filters.regex('(.*)@(.*)\.(.*)$'), joinMailList3)],
+            mailListThread_4 : [MessageHandler(Filters.text, joinMailList4)],
+            mailListThread_5 : [MessageHandler(Filters.text, joinMailList5)],
+            mailListThread_6 : [MessageHandler(Filters.text, joinMailList6)],
+            mailListThread_7 : [MessageHandler(Filters.text, joinMailList7)],
+            mailListThread_8 : [MessageHandler(Filters.text, joinMailList8)],
+            mailListThread_9 : [MessageHandler(Filters.text, joinMailList9)],
+            mailListThread_10 : [MessageHandler(Filters.text, joinMailList10)]
+        },
+        fallbacks=[CommandHandler('No', cancel)])
+    dispatcher.add_handler(join_mail_list_conv_handler)  
+    
+    upload_CV_conv_handler = ConversationHandler(
+        entry_points = [CommandHandler('upload', uploadCV0)],
+        states={
+            uploadCVThread_1 : [MessageHandler(Filters.document, uploadCV1)],
+            uploadCVThread_2 : [MessageHandler(Filters.text, uploadCV2)],
+        },
+        fallbacks=[CommandHandler('No', cancel)])
+    dispatcher.add_handler(upload_CV_conv_handler)  
    
-    # Get Attendance
-    # getAtt = CommandHandler('getAtt', getAttendance)
-    # give_attn_conv_handler = ConversationHandler(
-        # entry_points = [CommandHandler('getAtt', getAttendance)],
-        # states={
-            # GETATT1: [MessageHandler(Filters.text, getAttendance1)]
-        # },
-        # fallbacks=[CommandHandler('No', cancel)])
-    # dispatcher.add_handler(give_attn_conv_handler)
-  
-    # Users 
-    # user_conv_handler = ConversationHandler(
-        # entry_points = [CommandHandler('start', newUser)],
-        # states={
-            # newUser2: [MessageHandler(Filters.text, newUser2), CommandHandler('No', cancel)],
-            # newUser3: [MessageHandler(Filters.regex('(.*)@gmail.com$'), newUser3), CommandHandler('No', cancel)]
-        # },
-        # fallbacks=[CommandHandler('No', cancel)])
-    # dispatcher.add_handler(user_conv_handler)
-    # getUsers = CommandHandler('getUsers', getUser)
-    # dispatcher.add_handler(getUsers)
-
     # Help
     helpCommand = CommandHandler('help', help)
     dispatcher.add_handler(helpCommand)
