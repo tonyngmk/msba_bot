@@ -10,13 +10,12 @@
 <br></br>
 <font size = 5>Chatbot Assignment</font>
 
----
 
 # MSBA Telegram Bot
 Search `@MSBA_NTU_Bot` in Telegram. 
 
 **Highlights in Project:**
-- Using Python programming language as backend for Telegram chatbot
+- Using a full programming language (Python) as backend for Telegram chatbot
 - Seamlessly adding fields of data as rows to Google Sheets
 - Capable of uploading user's attachment to Google Drive
 - Able to send images and text to replicate a full website
@@ -62,7 +61,9 @@ Integrating Drive with Sheets
 
 ### 2. Python 
 
-This project is using Python programming language.
+This project is using Python programming language. 
+
+Perks of using a programming language instead of 3rd-party platforms such as SnatchBot is that one can be self-reliant, and harness the full capability of utilizing a full-programming language for backend logic.
 
 #### 2.1 Python-Google Spreadsheet
 
@@ -151,3 +152,4 @@ I've tried running on free tier t2 micro and the CPU Credit Usage for 2 bots is 
 This git repo does not have certain files containing credentials excluded in .gitignore. In case you are reusing the script, store:
 - Telegram bot's API as **botapi.txt**
 - Google Drive API as **creds.json**
+- Google OAuth2 API as **client_secrets.json**
