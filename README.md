@@ -35,8 +35,9 @@ Created for Chatbot Assignment in BC3409 - AI in Accounting and Finance AY2020/2
 
 ## Diagram
 
+### 1. /start
 <p align="center">
-	insert diagram here
+  <img src="https://raw.githubusercontent.com/tonyngmk/msba_bot/master/msba_bot_Start.png" />
 </p>
 
 ## Replication instructions

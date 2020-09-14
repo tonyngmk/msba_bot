@@ -406,7 +406,7 @@ Deep Learning and Contemporary AI in Business [1.5AUs]​
           [telegram.KeyboardButton('/No')]]
     kb_markup = telegram.ReplyKeyboardMarkup(kb, one_time_keyboard=True)
     update.message.reply_text("🚀 That is all. Do you want to continue learning more or return to main menu? 🚀\n\n Alternatively, type /No anywhere to cancel.", reply_markup=kb_markup)
-    return LEARNMORECATCH
+    return MENUORNO
     
 def progFullTime(update, context):
     user = update.message.from_user
@@ -425,7 +425,7 @@ Full-Time Programme (1 Year)
           [telegram.KeyboardButton('/No')]]
     kb_markup = telegram.ReplyKeyboardMarkup(kb, one_time_keyboard=True)
     update.message.reply_text("🚀 That is all. Do you want to continue learning more or return to main menu? 🚀\n\n Alternatively, type /No anywhere to cancel.", reply_markup=kb_markup)
-    return LEARNMORECATCH
+    return MENUORNO
     
 def progPartTime(update, context):
     user = update.message.from_user
@@ -447,7 +447,7 @@ Part-Time Programme (1.5 to 2 Years)
           [telegram.KeyboardButton('/No')]]
     kb_markup = telegram.ReplyKeyboardMarkup(kb, one_time_keyboard=True)
     update.message.reply_text("🚀 That is all. Do you want to continue learning more or return to main menu? 🚀\n\n Alternatively, type /No anywhere to cancel.", reply_markup=kb_markup)
-    return LEARNMORECATCH
+    return MENUORNO
     
 def facultyInformation(update, context):
     user = update.message.from_user
@@ -458,7 +458,7 @@ def facultyInformation(update, context):
           [telegram.KeyboardButton('/No')]]
     kb_markup = telegram.ReplyKeyboardMarkup(kb, one_time_keyboard=True)
     update.message.reply_text("🚀 That is all. Do you want to continue learning more or return to main menu? 🚀\n\n Alternatively, type /No anywhere to cancel.", reply_markup=kb_markup)
-    return LEARNMORECATCH
+    return MENUORNO
 
 def whyMSBA(update, context):
     user = update.message.from_user
@@ -1095,12 +1095,11 @@ def main():
                              MessageHandler(Filters.regex('(Full Time)'), progFullTime),
                              MessageHandler(Filters.regex('(Part Time)'), progPartTime),
                              MessageHandler(Filters.regex('Faculty Information'), facultyInformation)],
-            LEARNMORECATCH : [MessageHandler(Filters.regex('Learn more'), learnMore)],
+            # LEARNMORECATCH : [MessageHandler(Filters.regex('Learn more'), learnMore)],
             ADMREQ2 : [MessageHandler(Filters.regex('💰 Tuition Fees & Financing'), tuitionFeeFinancing),
                        MessageHandler(Filters.regex('Application Process'), appProcess)],
             CAREERDEVT2 : [MessageHandler(Filters.regex('🤝 Career Development Opportunities'), careerDevtOppo),
                            MessageHandler(Filters.regex('🛣 Career Development Journey'), careerDevtJourney)],
-
             MENUORNO : [MessageHandler(Filters.regex('Learn more'), learnMore),
                         MessageHandler(Filters.regex('Main menu'), start)]
         },
