@@ -1,11 +1,36 @@
+<h1 align=center><div>
+<img src="https://raw.githubusercontent.com/tonyngmk/free_storage/master/Images/NTU%20Logo.png " width="500" height="175" align="middle">
+</div>
+
+<h1 align=center><font color='Blue'>BC3409</font> - 
+<font color='red'>AI in Accounting & Finance</font>
+
+<font size = 5>Semester 1, AY2020-21</font>
+
+<br></br>
+<font size = 5>Chatbot Assignment</font>
+
+**Student:** 
+Tony Ng Meng Kiat
+
+**Matric No:** U1810209F
+<br></br>
+
+**Seminar Tutor:** Dr. Teoh Teik Toe
+
+**Seminar:** 2
+
 # MSBA Telegram Bot
 Search `@MSBA_NTU_Bot` in Telegram. 
 
+**Highlights in Project:**
+- Using Python programming language as backend for Telegram chatbot
+- Seamlessly adding fields of data as rows to Google Sheets
+- Capable of uploading user's attachment to Google Drive
+- Able to send images and text to replicate a full website
+- Send documents by users' command as well
+
 Created for Chatbot Assignment in BC3409 - AI in Accounting and Finance AY2020/21 Sem 1.
-
-This project primary shows how we can create or customizable telegram bot using Python.
-
-Also, this also shows how one is able to seamlessly integrate **Telegram** with **Google Sheets** through the use of Python.
 
 ## Diagram
 
@@ -13,7 +38,12 @@ Also, this also shows how one is able to seamlessly integrate **Telegram** with 
 	insert diagram here
 </p>
 
+
+## Replication instructions
+
 ### 1. Google Cloud Platform (GCP)
+
+We will be accessing GCP console as its free-tier is more than adequate and as we will be using both Google Drive and Google Sheets services.
 
 #### 1.1 Google Drive API
 
@@ -22,6 +52,7 @@ Steps to obtain credentials for Google Drive API:
 2. Select Google Drive API > Web Server > Application Data > No I'm not using them
 3. Any name > Editor > JSON
 4. Download JSON credentials > Copy client_email > Share to this email in Google Sheets
+5. Rename JSON credentials to creds.json and move it to current working directory (cwd).
 
 ### 1.2 Google Sheets API
 
@@ -39,15 +70,17 @@ Integrating Drive with Sheets
 
 ### 2. Python 
 
-python-telegram-bot is used to talk from python-telegram, gspread is used to talk from python-(google spreadsheet)
+This project is using Python programming language.
 
 #### 2.1 Python-Google Spreadsheet
+
+In essence, the bot will be able to query and insert rows to gsheets directly.
 
 	python3 -m pip install --user gspread oauth2client
 
 References: https://gspread.readthedocs.io/en/latest/
 
-In essence, the bot is able to query and insert rows to gsheets directly.
+To make sure to distinguish *'file-level'* and *'sheet-level'* when updating.
 
 ###### Get Methods:
 - get_all_records()
@@ -66,10 +99,9 @@ In essence, the bot is able to query and insert rows to gsheets directly.
 
 #### 2.2 Google
 
-Google-API is a library in Python that can be used to talk to Google Drive.
+Google-API is a library in Python that can be used to talk to Google services, and this is used to interact with Google Drive.
 
 	python3 -m pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
-
 
 
 #### 2.3 Python-Telegram
