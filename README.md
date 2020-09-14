@@ -14,10 +14,6 @@
 # MSBA Telegram Bot
 Search `@MSBA_NTU_Bot` in Telegram. 
 
--- <p align="center">
---  <img src="https://raw.githubusercontent.com/tonyngmk/msba_bot/master/msbaBot.png" />
--- </p>
-
 **Highlights in Project:**
 - Using a full programming language (Python) as backend for Telegram chatbot
 - Seamlessly adding fields of data as rows to Google Sheets
@@ -121,7 +117,7 @@ Google-API is a library in Python that can be used to talk to Google services, a
 Thereafter, just edit along **bot.py** file and execute it. The python script must continually run for the bot to work. 
 To do so, one can run it perpetually using a cloud virtual machine, e.g. AWS EC2, Google Compute Engine, etc. 
 
-I've tried running on free tier t2 micro and the CPU Credit Usage for 2 bots is negligible, so it should be essentially free.
+I've tried running on free tier t2 micro and the CPU Credit Usage for 3 bots and is near negligible, so it should be essentially free as well.
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/tonyngmk/my-stoic-telebot/master/cpu_cred_usage.png" />
