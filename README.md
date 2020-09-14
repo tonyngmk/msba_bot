@@ -23,6 +23,12 @@ Search `@MSBA_NTU_Bot` in Telegram.
 
 Created for Chatbot Assignment in BC3409 - AI in Accounting and Finance AY2020/21 Sem 1.
 
+## Commands
+1. /start - Start conversation
+2. /join - Join mailing list
+3. /upload - Upload CV for pre-assessment
+4. /help - See all commands
+
 ## Diagram
 
 <p align="center">
@@ -90,7 +96,7 @@ To make sure to distinguish *'file-level'* and *'sheet-level'* when updating.
 - Mailing List
 - Pre-Assessment
 
-#### 2.2 Google
+#### 2.2 Google-API
 
 Google-API is a library in Python that can be used to talk to Google services, and this is used to interact with Google Drive.
 
