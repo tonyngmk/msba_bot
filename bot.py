@@ -28,7 +28,7 @@ logger = logging.getLogger(__name__)
 # newUser2, CONT, DATE, TIME, OVER_1830H, OVER_1830H_2, GETATT1 = range(7) # states
 # reason_cache, userInputName, gmail, day_cache, date_cache, time_cache = range(6) # variables
 
-CONT, LEARNMORE2, LEARNMORECATCH, PROGOVERVIEW2 = range(4)
+CONT, LEARNMORE2, LEARNMORECATCH, PROGOVERVIEW2, MENUORNO, ADMREQ2, CAREERDEVT2 = range(7)
 
 def start(update, context):
     user = update.message.from_user
@@ -69,8 +69,10 @@ def learnMore(update, context):
 def dlBrochure(update, context):
     user = update.message.from_user
     logger.info("User {} has selected to 'Download Brochure'".format(user.first_name, update.message.text))
-    context.bot.send_message(chat_id=update.effective_chat.id, text="🙏 Thank you, please allow 2-5s for the attachment to be sent. 🙏")   
-    return ConversationHandler.END  
+    context.bot.send_message(chat_id=update.effective_chat.id, text="🙏 Thank you, please allow apporixmately 5s for the attachment to be sent. 🙏")
+    context.bot.sendDocument(chat_id=update.effective_chat.id, document="https://raw.githubusercontent.com/tonyngmk/msba_bot/master/MSBA-Brochure-2020.pdf")
+    context.bot.send_message(chat_id=update.effective_chat.id, text="🙏 That is all! Talk to me again soon, you know where to /start 😉")
+    return ConversationHandler.END
     
 def joinMailList(update, context):
     user = update.message.from_user
@@ -129,9 +131,9 @@ Half Course: 1.5 Academic Units''')
 All Core Modules and Electives might be subject to changes​
 ​ ​''')
     kb = [[telegram.KeyboardButton('ℹ Module Information')],
-          [telegram.KeyboardButton('Programme Calendar (Full Time)')],
-          [telegram.KeyboardButton('Programme Calendar (Part Time)')],
-          [telegram.KeyboardButton('Faculty Information')]
+          [telegram.KeyboardButton('🌕 Programme Calendar (Full Time)')],
+          [telegram.KeyboardButton('🌓 Programme Calendar (Part Time)')],
+          [telegram.KeyboardButton('👩‍🏫 Faculty Information')]
           ]
     kb_markup = telegram.ReplyKeyboardMarkup(kb, one_time_keyboard=True)
     update.message.reply_text("➡ Please select the following options to delve deeper \n\n Alternatively, type /No anywhere to cancel.", reply_markup=kb_markup)
@@ -302,12 +304,285 @@ Part-Time Programme (1.5 to 2 Years)
 def facultyInformation(update, context):
     user = update.message.from_user
     logger.info("User {} has selected to 'Learn More -> Programme Overview -> Faculty Information'".format(user.first_name, update.message.text))
+    context.bot.send_photo(chat_id=update.effective_chat.id, photo = "https://raw.githubusercontent.com/tonyngmk/msba_bot/master/facultyInformation.png")
     kb = [[telegram.KeyboardButton('➡ Learn more')],
           [telegram.KeyboardButton('🏠 Main menu')],
           [telegram.KeyboardButton('/No')]]
     kb_markup = telegram.ReplyKeyboardMarkup(kb, one_time_keyboard=True)
     update.message.reply_text("🚀 That is all. Do you want to continue learning more or return to main menu? 🚀\n\n Alternatively, type /No anywhere to cancel.", reply_markup=kb_markup)
     return LEARNMORECATCH
+
+def whyMSBA(update, context):
+    user = update.message.from_user
+    logger.info("User {} has selected to 'Learn More -> Why MSc Business Analytics'".format(user.first_name, update.message.text))
+    context.bot.send_message(chat_id=update.effective_chat.id, text='As organisations integrate digital technologies into their business models, the relevance of business analytics has never been greater. Serving as a bridge between the business and technology functions, business analysts play a critical role in guiding businesses through digital disruption, analysing and utilising data to drive digital transformation, redefine the customer experience and deliver profitable business outcomes. In the hands of a skilled business analyst, data can be turned into a competitive advantage.')
+    context.bot.send_photo(chat_id=update.effective_chat.id, photo = "https://nbs.ntu.edu.sg/Programmes/Graduate/MScBusinessAnalytics/PublishingImages/Home%20page.jpg")
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+The MSc Business Analytics (MSBA) is designed to close the gap between technical and business know-how for more effective use of data in the workplace, whether in the areas of management, accounting, marketing, finance, communications or administration.​
+
+Participants are prepared for a future of data-driven decision-making with a cutting-edge programme possessing the following unique points:
+
+**Strong Industry Connections and Engagement:**
+
+The MSBA enjoys wide support and engagement from the industry, with many leading industry partners shaping the curriculum to industry realties and needs. Our Industry partners provides project and internship opportunities, greatly increasing the likelihood of our students securing employment after graduation.
+
+**Developed with Future-Focused Content:**
+
+The MSBA’s first-of-its-kind curriculum features cutting-edge modules such as Analytics and
+Machine Learning in Business that provide an understanding of technologies that will impact business environments in the future.
+
+**Applied Learning**
+
+​Using real world data provided by industry partners, the MSBA imparts knowledge to our students through a hands-on approach. This approach grounds MSBA students in the realities of the industry and enables them to switch from classroom to workplace effectively and quickly.
+
+**Enhanced by NTU's Established Strengths**
+
+The MSBA is developed in collaboration with NTU’s SCSE (School of Computing Science and Engineering) and SPMS (School of Physical and Mathematical Sciences). This allows participants to take cross-listed modules to customise the depth of learning in areas of particular interest.
+''', parse_mode=telegram.ParseMode.MARKDOWN)
+    kb = [[telegram.KeyboardButton('➡ Learn more')],
+          [telegram.KeyboardButton('🏠 Main menu')],
+          [telegram.KeyboardButton('/No')]]
+    kb_markup = telegram.ReplyKeyboardMarkup(kb, one_time_keyboard=True)
+    update.message.reply_text("🚀 That is all. Do you want to learn more or return to the main menu? 🚀\n\n Alternatively, type /No anywhere to cancel.", reply_markup=kb_markup)
+    return MENUORNO
+    
+def admReq(update, context):
+    user = update.message.from_user
+    logger.info("User {} has selected to 'Learn More -> Admission Requirements'".format(user.first_name, update.message.text))
+    context.bot.send_photo(chat_id=update.effective_chat.id, photo = "https://nbs.ntu.edu.sg/Programmes/Graduate/MScBusinessAnalytics/PublishingImages/Admission_Requirements.jpg")
+    context.bot.send_message(chat_id=update.effective_chat.id, text='Applicants who wish to apply to the Nanyang MSc Business Analytics (MSBA) are required to meet the minimum admission requirements below:​​​​​​​​​​​')
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+- A good Bachelor’s degree in any discipline.
+
+- ​A good GMAT/GRE score.
+
+- ​TOEFL/IELTS for applicants whose first degree was taken in a language other than English.
+
+​- Applicants with no work experience are welcome to apply.​
+''')
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+The institutional cod​e for the following tests are:​
+
+- GMAT: V27-ZV-91
+
+- GRE: 3802
+
+- TOEFL: 9705
+
+Both full and part-time programmes will start in July.
+Application opens: 31 August 2020
+
+Application Deadlines:
+''')
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+<pre>
+| Round |     Deadline     |
+|:-----:|:----------------:|
+|   1   | 30 November 2020 |
+|   2   |  31 January 2021 |
+|   3   |   31 March 2021  |
+</pre>
+''', parse_mode=telegram.ParseMode.HTML)
+    kb = [[telegram.KeyboardButton('💰 Tuition Fees & Financing')],
+          [telegram.KeyboardButton('✍ Application Process')]]
+    kb_markup = telegram.ReplyKeyboardMarkup(kb, one_time_keyboard=True)
+    update.message.reply_text("🚀 Select the following options to learn more about application. 🚀\n\n Alternatively, type /No anywhere to cancel.", reply_markup=kb_markup)
+    return ADMREQ2
+    
+def tuitionFeeFinancing(update, context):
+    user = update.message.from_user
+    logger.info("User {} has selected to 'Learn More -> Admission Requirements -> Tuition Fees & Financing'".format(user.first_name, update.message.text))
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+<pre>
+|    Application Fee   | S$100                                                                                                                                                                             |
+|:--------------------:|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|     Enrolment Fee    | S$10,000 (inclusive of GST, non-refundable and payable upon acceptance of the offer of admission)                                                                                 |
+|      Tuition Fee     | S$52,000 (inclusive of GST and S$10,000 and enrolment fee, payable in equal instalments over 3 trimesters for full-time programme; over 5 trimesters for the part-time programme) |
+| Miscellaneous Fees** | Approximately S$300 (inclusive of GST*)                                                                                                                                           |
+|    Medical Scheme    | S$80.25                                                                                                                                                                           |
+</pre>
+''', parse_mode=telegram.ParseMode.HTML)
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+*Goods and Services Tax (GST) in Singapore is currently 7%
+
+**Miscellaneous Fees include fees for Registration, Exam, Amenities and Sports (full-time students only), IT Facilities, Smart Card and Copyright.
+
+This payment scheme is applicable for both full-time and part-time courses.
+
+ 
+NTU Alumni Grant
+NTU alumni who have completed a bachelor’s or post-graduate degree at NTU are eligible for an alumni grant of 10% of the tuition fees. The subsidy can only be used to offset the tuition fee and cannot be used to offset other costs such as student service fees or miscellaneous fees.
+
+SG:D Scholarship by IInfocomm Media Development Authority​ (IMDA)
+Singapore citizens may wish to consider the SG:D scholarship to finance their studies. More information about the scholarship may be found at the IMDA website​.  
+
+Financial Aid
+
+Singaporeans and Singapore permanent residents may apply for educational loans at:
+NTUC Thrift – (65) 6534 7360
+TCC (Telecom Credit Corporation) – (65) 6319 3700
+International students must apply for loans in the country of residence.
+The Nanyang Graduate Studies office has negotiated advantageous education loans with leading banks for up to 100% of tuition fees. Eligible applicants may contact these partner banks:
+''')
+    context.bot.send_photo(chat_id=update.effective_chat.id, photo = "https://nbs.ntu.edu.sg/Programmes/Graduate/NanyangMScAccountancy/Admissions/PublishingImages/SBI-LOGO.jpg")
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+SBI Student Loan:
+Application is open to all students from India studying in Singapore, age 21 & above. Visit www.sbising.com to find out more.
+Please contact the following staff for more information.
+•Aditya Mahajan @ (65) 6506 4215
+•Ramesh Balan @ (65) 6228 1153
+Or email: studentloan@sbising.com
+''')
+    context.bot.send_photo(chat_id=update.effective_chat.id, photo = "https://nbs.ntu.edu.sg/Programmes/Graduate/NanyangMScAccountancy/Admissions/PublishingImages/rhb.png")
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+RHB Education Loan:
+Loans are eligible for Singaporeans or Singapore permanent-resident students aged 21-62 when the loan is signed.
+Stella Kae, Premier Relationship Banker, Consumer Banking
+HP: +65 9800 6963 Email: stella.kae@rhbgroup.com
+''')
+    context.bot.send_photo(chat_id=update.effective_chat.id, photo = "https://nbs.ntu.edu.sg/Programmes/Graduate/NanyangMScAccountancy/Admissions/PublishingImages/Maybank.png")
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+Maybank:
+Applications require a Singaporean or Singapore permanent resident joint applicant.
+Candy Kok Team Lead, Direct Banking Channel
+HP: +65 9108 7960 Email: ckok@maybank.com.sg.
+''')
+    context.bot.send_photo(chat_id=update.effective_chat.id, photo = "https://nbs.ntu.edu.sg/Programmes/Graduate/NanyangMScAccountancy/Admissions/PublishingImages/Prodigy.png")
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+Prodigy Finance:
+All international students are eligible. Singapore citizens and Permanent Residents are ineligible. Residents with a non-permanent status maybe eligible depending on the specifics of their situation.
+For more information visit Prodigy Finance.
+Email: info@prodigyfinance.com
+''')
+    kb = [[telegram.KeyboardButton('➡ Learn more')],
+          [telegram.KeyboardButton('🏠 Main menu')],
+          [telegram.KeyboardButton('/No')]]
+    kb_markup = telegram.ReplyKeyboardMarkup(kb, one_time_keyboard=True)
+    update.message.reply_text("🚀 That is all. Do you want to learn more or return to the main menu? 🚀\n\n Alternatively, type /No anywhere to cancel.", reply_markup=kb_markup)
+    return MENUORNO
+    
+def appProcess(update, context):
+    user = update.message.from_user
+    logger.info("User {} has selected to 'Learn More -> Admission Requirements -> Application Process'".format(user.first_name, update.message.text))
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+Candidates must meet our Admission Requirements and only completed applications will be assessed. An application is considered complete when we have received all supporting documents, information and application fee.
+
+GET STARTED IN 6 SIMPLE STEPS 
+''')
+    context.bot.send_photo(chat_id=update.effective_chat.id, photo = "https://nbs.ntu.edu.sg/Style%20Library/bootstrap/styles/images/001-Create-profile.png")
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+1. CREATE ONLINE PROFILE
+
+Apply for the programme via our online application system. You may also login to the system to check your application status after you have submitted your application. Your application should demonstrate strong intellectual capability, solid career progression and professional achievements (where applicable), and leadership qualities/potential. The essay questions are compulsory and you should articulate your thoughts clearly, using good judgement with respect to the word limit.
+
+No separate application for scholarships is required – simply tick on the box relating to the scholarship you are applying for in the online application form and complete the essay for scholarship consideration. 
+''')
+    context.bot.send_photo(chat_id=update.effective_chat.id, photo = "https://nbs.ntu.edu.sg/Style%20Library/bootstrap/styles/images/002-Prepare-doc.png")
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+2. PREPARE AND UPLOAD SUPPORTING DOCUMENTS
+
+Fill in the application form and upload the following supporting documents:
+CV or Resume
+
+Concise document no more than 3 pages, briefly describing your responsibilities and accomplishments
+Educational Documents
+
+Degree scroll/certificate(s) and academic transcripts of each university attended (official English translation is required for non-English certificates and transcripts)
+Passport Photo
+
+Coloured photo (taken within the last 3 months) in hi-resolution jpeg format
+GMAT or GRE Score
+
+You may upload your unofficial or test taker copy if you do not have your official test scores on hand. Please arrange to have your official test scores sent to Nanyang Business School. Our GMAT institution code is V24-ZV-91 and our GRE ID code is 3802.
+
+Applicants who have yet to take the GMAT/GRE and TOEFL/IELTS may still proceed to submit their application and indicate the test dates in the online application form.
+TOEFL or IELTS score report
+
+Applicants are required to take the TOEFL or IELTS if English was not the medium of instruction used at the tertiary level.
+Referee Reports
+
+Applicants are required to nominate two referees in the online application form. Upon nomination, an online referee report form will be sent to them for their completion.
+
+Professional Membership Certificates, if any
+''')
+    context.bot.send_photo(chat_id=update.effective_chat.id, photo = "https://nbs.ntu.edu.sg/Style%20Library/bootstrap/styles/images/003-Complete-app.png")
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+3. SUBMIT APPLICATION & APPLICATION FEE
+
+Upon submitting your application, you will be required to pay an application fee of S$100 via VISA or Mastercard. If you are unable to pay via VISA or Mastercard, please issue a cheque payable to “Nanyang Technological University” (indicate your full name and address on the reverse).
+''')
+    context.bot.send_photo(chat_id=update.effective_chat.id, photo = "https://nbs.ntu.edu.sg/Style%20Library/bootstrap/styles/images/004-Shortlisted.png")
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+4. ASSESSMENT & INTERVIEW SHORTLIST
+
+After assessment of your application is completed, we will shortlist candidates for the interview stage. The interview is by invitation only and you will be informed via e-mail if you have been shortlisted.
+
+The announcement of shortlisted candidates for interview will be made after the deadline of the application round and is not a one-time exercise – subsequent announcement will also be made as warranted. In some instances, your interview may occur even during the round itself.
+''')
+    context.bot.send_photo(chat_id=update.effective_chat.id, photo = "https://nbs.ntu.edu.sg/Style%20Library/bootstrap/styles/images/005-Final-selection.png")
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+5. INTERVIEW EVALUATION & FINAL SELECTION
+
+Candidates who have completed the interview will move to the final selection stage whereby the Admissions Committee will meet for deliberation and candidates for admission are selected. Announcement of offered candidates will be made via an e-mail notification from the admissions office.
+
+Please note that only successful candidates will be notified. Applicants are advised to check the online application system for their application status. We are unable to confirm or release information via phone.
+''')
+    context.bot.send_photo(chat_id=update.effective_chat.id, photo = "https://nbs.ntu.edu.sg/Style%20Library/bootstrap/styles/images/006-Accept-the-offer.png")
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+6. ACCEPTANCE OF OFFER
+
+Should you receive an admission offer via email, you are required to complete the acceptance of the offer within the stipulated time or the offer will lapse automatically. The acceptance must be accompanied by a non-refundable enrolment fee of S$10,000 (inclusive of GST) which is deductible from the total tuition fees payable.
+''')
+    kb = [[telegram.KeyboardButton('🏠 Main menu')],
+          [telegram.KeyboardButton('/No')]]
+    kb_markup = telegram.ReplyKeyboardMarkup(kb, one_time_keyboard=True)
+    update.message.reply_text("🚀 That is all. Do you want to return to the main menu? 🚀\n\n Alternatively, type /No anywhere to cancel.", reply_markup=kb_markup)
+    return MENUORNO
+
+def exchPartners(update, context):
+    user = update.message.from_user
+    logger.info("User {} has selected to 'Learn More -> Exchange Partners'".format(user.first_name, update.message.text))
+    context.bot.send_message(chat_id=update.effective_chat.id, text='''
+    1. ​​Wirtschaftsuniversitat Wien (Vienna University of Economics & Business Administration)
+    2. Aalto University School of Economics
+    3. WHU Koblenz, Otto Beisheim Grade School of Management (only courses in MSc programmes)
+    4. Universita Commerciale "Luigi Bocconi"
+    5. Instituto Technologico Autonomo de Mexico, ITAM (must possess at least 1 yr work exp)
+    6. The Graduate School of Business Administration and Leadership, ITESM
+    7. Victoria Business School, Victoria University of Wellington
+    8. Lagos Business School, Pan-Atlantic University 
+    9. WITS Business School, University of the Witwatersand Johannesburg
+    10. University of St Gallen
+    11. College of Commerce, National Chengchi University
+    12. Faculty of Commerce & Accountancy, Chulalongkorn University
+    13. Faculty of Commerce & Accountancy, Thammasat University
+    14. The Edwin L.Cox School of Business, Southern Methodist University 
+    15. Erasmus University, Rotterdam (they also have a similar programme starting this Sept)
+    16. ESSEC Business School, France
+    17. EMLYON Business School, France
+    18. McGill University, Canada (students must have at least 2 years’ work experience after bachelor degree)
+    19. The University of North Carolina, USA​
+''')
+    kb = [[telegram.KeyboardButton('➡ Learn more')],
+          [telegram.KeyboardButton('🏠 Main menu')],
+          [telegram.KeyboardButton('/No')]]
+    kb_markup = telegram.ReplyKeyboardMarkup(kb, one_time_keyboard=True)
+    update.message.reply_text("🚀 That is all. Do you want to learn more or return to the main menu? 🚀\n\n Alternatively, type /No anywhere to cancel.", reply_markup=kb_markup)
+    return MENUORNO
+
+def careerDevt(update, context):
+    user = update.message.from_user
+    logger.info("User {} has selected to 'Learn More -> Career Development'".format(user.first_name, update.message.text))
+    context.bot.send_message(chat_id=update.effective_chat.id, text='​​​​Let us be the accelerator in your career journey​')
+    context.bot.send_photo(chat_id=update.effective_chat.id, photo = "https://nbs.ntu.edu.sg/Style%20Library/bootstrap/styles/images/005-Final-selection.png")
+
+    
+    kb = [[telegram.KeyboardButton('🤝 Career Development Opportunities')],
+          [telegram.KeyboardButton('🛣 Career Development Journey')]]
+    kb_markup = telegram.ReplyKeyboardMarkup(kb, one_time_keyboard=True)
+    update.message.reply_text("🚀 Select the following options to learn more about application. 🚀\n\n Alternatively, type /No anywhere to cancel.", reply_markup=kb_markup)
+    return CAREERDEVT2
+
 
 def cancel(update, context):
     user = update.message.from_user
@@ -339,13 +614,19 @@ def main():
             CONT : [MessageHandler(Filters.regex('Learn more'), learnMore),
                     MessageHandler(Filters.regex('Download brochure'), dlBrochure),
                     MessageHandler(Filters.regex('Join mailing list'), joinMailList)],
-            LEARNMORE2 : [MessageHandler(Filters.regex('Programme Overview'), programmeOverview)],
+            LEARNMORE2 : [MessageHandler(Filters.regex('Programme Overview'), programmeOverview),
+                          MessageHandler(Filters.regex('Why MSc Business Analytics'), whyMSBA),
+                          MessageHandler(Filters.regex('Admission Requirements'), admReq),
+                          MessageHandler(Filters.regex('Exchange Partners'), exchPartners)],
             PROGOVERVIEW2 : [MessageHandler(Filters.regex('Module Information'), moduleInformation),
-                             MessageHandler(Filters.regex('Programme Calendar (Full Time)'), progFullTime),
-                             MessageHandler(Filters.regex('Programme Calendar (Part Time)'), progPartTime),
+                             MessageHandler(Filters.regex('(Full Time)'), progFullTime),
+                             MessageHandler(Filters.regex('(Part Time)'), progPartTime),
                              MessageHandler(Filters.regex('Faculty Information'), facultyInformation)],
-            LEARNMORECATCH : [MessageHandler(Filters.regex('Learn more'), learnMore),
-                              MessageHandler(Filters.regex('Main menu'), start)]
+            LEARNMORECATCH : [MessageHandler(Filters.regex('Learn more'), learnMore)],
+            ADMREQ2 : [MessageHandler(Filters.regex('💰 Tuition Fees & Financing'), tuitionFeeFinancing),
+                       MessageHandler(Filters.regex('Application Process'), appProcess)],
+            MENUORNO : [MessageHandler(Filters.regex('Learn more'), learnMore),
+                        MessageHandler(Filters.regex('Main menu'), start)]
             # CONT: [CommandHandler('Yes', cont_to_date), CommandHandler('No', cancel)],
             # TIME: [MessageHandler(Filters.regex('^(Mon|Tue|Wed|Thu|Fri|Sat|Sun), (\d{4})\/(0?[1-9]|1[012])\/(0?[1-9]|[12][0-9]|3[01])'), date_to_time)],
             # OVER_1830H: [MessageHandler(Filters.regex('onwards$'), over_1830H),
@@ -354,11 +635,6 @@ def main():
         },
         fallbacks=[CommandHandler('No', cancel)])
     dispatcher.add_handler(msba_conv_handler)
-    # kb = [[telegram.KeyboardButton('ℹ Module Information')],
-          # [telegram.KeyboardButton('Programme Calendar (Full Time)')],
-          # [telegram.KeyboardButton('Programme Calendar (Part Time)')],
-          # [telegram.KeyboardButton('Faculty Information')]
-          
           
     # kb = [[telegram.KeyboardButton('📝 Programme Overview')],
           # [telegram.KeyboardButton('❓ Why MSc Business Analytics')],
