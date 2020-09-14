@@ -12,15 +12,6 @@
 
 ---
 
-**Student:** Tony Ng Meng Kiat
-
-**Matric No:** U1810209F
-<br></br>
-
-**Seminar Tutor:** Dr. Teoh Teik Toe
-
-**Seminar:** 2
-
 # MSBA Telegram Bot
 Search `@MSBA_NTU_Bot` in Telegram. 
 
