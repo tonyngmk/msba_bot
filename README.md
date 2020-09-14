@@ -14,9 +14,9 @@
 # MSBA Telegram Bot
 Search `@MSBA_NTU_Bot` in Telegram. 
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/tonyngmk/msba_bot/master/msbaBot.png" />
-</p>
+-- <p align="center">
+--  <img src="https://raw.githubusercontent.com/tonyngmk/msba_bot/master/msbaBot.png" />
+-- </p>
 
 **Highlights in Project:**
 - Using a full programming language (Python) as backend for Telegram chatbot
