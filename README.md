@@ -8,10 +8,11 @@
 <font size = 5>Semester 1, AY2020-21</font>
 
 <br></br>
-<font size = 2>Chatbot Assignment</font>
+<font size = 5>Chatbot Assignment</font>
 
-**Student:** 
-Tony Ng Meng Kiat
+---
+
+**Student:** Tony Ng Meng Kiat
 
 **Matric No:** U1810209F
 <br></br>
