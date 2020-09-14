@@ -14,6 +14,10 @@
 # MSBA Telegram Bot
 Search `@MSBA_NTU_Bot` in Telegram. 
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/tonyngmk/msba_bot/master/msbaBot.png" />
+</p>
+
 **Highlights in Project:**
 - Using a full programming language (Python) as backend for Telegram chatbot
 - Seamlessly adding fields of data as rows to Google Sheets
@@ -34,7 +38,6 @@ Created for Chatbot Assignment in BC3409 - AI in Accounting and Finance AY2020/2
 <p align="center">
 	insert diagram here
 </p>
-
 
 ## Replication instructions
 
