@@ -40,9 +40,9 @@ Created for Chatbot Assignment in BC3409 - AI in Accounting and Finance AY2020/2
 
 ### 1. Google Cloud Platform (GCP)
 
-We will be accessing GCP console as its free-tier is more than adequate and as we will be using both Google Drive and Google Sheets services.
+GCP console free-tier provides more than adequate resources for this project. It is required for both Google Drive and Google Sheets services.
 
-#### 1.1 Google Drive API
+### 1.1 Google Drive API
 
 Steps to obtain credentials for Google Drive API:
 1. Google Drive API > Enable > Create Credentials 
