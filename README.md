@@ -24,10 +24,10 @@ Search `@MSBA_NTU_Bot` in Telegram.
 Created for Chatbot Assignment in BC3409 - AI in Accounting and Finance AY2020/21 Sem 1.
 
 ## Commands
-1. /start - Start conversation
-2. /join - Join mailing list
-3. /upload - Upload CV for pre-assessment
-4. /help - See all commands
+1. **/start** - Start conversation
+2. **/join** - Join mailing list
+3. **/upload** - Upload CV for pre-assessment
+4. **/help** - See all commands
 
 ## Diagram
 
@@ -81,6 +81,10 @@ References: https://gspread.readthedocs.io/en/latest/
 
 To make sure to distinguish *'file-level'* and *'sheet-level'* when updating.
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/tonyngmk/msba_bot/master/sheetsDemonstration.png" />
+</p>
+
 ###### Get Methods:
 - get_all_records()
 - row_values(row)
@@ -102,6 +106,9 @@ Google-API is a library in Python that can be used to talk to Google services, a
 
 	python3 -m pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/tonyngmk/msba_bot/master/driveDemonstration.png" />
+</p>
 
 #### 2.3 Python-Telegram
 
