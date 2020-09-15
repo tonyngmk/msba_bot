@@ -15,7 +15,7 @@
 Search `@MSBA_NTU_Bot` in Telegram. 
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/tonyngmk/msba_bot/master/msbaBot.png" />
+  <img src="https://raw.githubusercontent.com/tonyngmk/msba_bot/master/readme_pictures/msbaBot.png" />
 </p>
 
 **Highlights in Project:**
@@ -97,7 +97,7 @@ References: https://gspread.readthedocs.io/en/latest/
 To make sure to distinguish *'file-level'* and *'sheet-level'* when updating.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/tonyngmk/msba_bot/master/sheetsDemonstration.png" />
+  <img src="https://raw.githubusercontent.com/tonyngmk/msba_bot/master/readme_pictures/sheetsDemonstration.png" />
 </p>
 
 ###### Get Methods:
@@ -122,7 +122,7 @@ Google-API is a library in Python that can be used to talk to Google services, a
 	python3 -m pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/tonyngmk/msba_bot/master/driveDemonstration.png" />
+  <img src="https://raw.githubusercontent.com/tonyngmk/msba_bot/master/readme_pictures/driveDemonstration.png" />
 </p>
 
 #### 2.3 Python-Telegram

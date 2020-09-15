@@ -124,7 +124,7 @@ def dlBrochure(update, context):
     user = update.message.from_user
     logger.info("User {} has selected to 'Download Brochure' via /join".format(user.first_name, update.message.text))
     context.bot.send_message(chat_id=update.effective_chat.id, text="🙏 Thank you, please allow apporixmately 5s for the attachment to be sent. 🙏")
-    context.bot.sendDocument(chat_id=update.effective_chat.id, document="https://raw.githubusercontent.com/tonyngmk/msba_bot/master/MSBA-Brochure-2020.pdf")
+    context.bot.sendDocument(chat_id=update.effective_chat.id, document="https://raw.githubusercontent.com/tonyngmk/msba_bot/master/bot_resources/MSBA-Brochure-2020.pdf")
     context.bot.send_message(chat_id=update.effective_chat.id, text="🙏 That is all! Talk to me again soon, you know where to /start 😉")
     return ConversationHandler.END
     
@@ -418,7 +418,7 @@ All our courses are conducted in English, on NTU's vibrant campuses in Singapore
  
 Full-Time Programme (1 Year)
 ''')
-    context.bot.send_photo(chat_id=update.effective_chat.id, photo = "https://raw.githubusercontent.com/tonyngmk/msba_bot/master/progFullTime.png")
+    context.bot.send_photo(chat_id=update.effective_chat.id, photo = "https://raw.githubusercontent.com/tonyngmk/msba_bot/master/bot_resources/progFullTime.png")
     context.bot.send_message(chat_id=update.effective_chat.id, text='* The programme undergoes continuous improvement. As such, modules might be subject ​to changes')
     kb = [[telegram.KeyboardButton('➡ Learn more')],
           [telegram.KeyboardButton('🏠 Main menu')],
@@ -437,7 +437,7 @@ All our courses are conducted in English, on NTU's vibrant campuses in Singapore
 
 Part-Time Programme (1.5 to 2 Years)
 ''')
-    context.bot.send_photo(chat_id=update.effective_chat.id, photo = "https://raw.githubusercontent.com/tonyngmk/msba_bot/master/progPartTime.png")
+    context.bot.send_photo(chat_id=update.effective_chat.id, photo = "https://raw.githubusercontent.com/tonyngmk/msba_bot/master/bot_resources/progPartTime.png")
     context.bot.send_message(chat_id=update.effective_chat.id, text='''
 *Students on the part time programme may choose to schedule their electives workload scheduled in Year 2 Trimester 3 to other Trimester in order to graduate earlier.Do speak to the Programme Lead after enrolling into this programme for more information​ ​​​​​
 
@@ -452,7 +452,7 @@ Part-Time Programme (1.5 to 2 Years)
 def facultyInformation(update, context):
     user = update.message.from_user
     logger.info("User {} has selected to 'Learn More -> Programme Overview -> Faculty Information'".format(user.first_name, update.message.text))
-    context.bot.send_photo(chat_id=update.effective_chat.id, photo = "https://raw.githubusercontent.com/tonyngmk/msba_bot/master/facultyInformation.png")
+    context.bot.send_photo(chat_id=update.effective_chat.id, photo = "https://raw.githubusercontent.com/tonyngmk/msba_bot/master/bot_resources/facultyInformation.png")
     kb = [[telegram.KeyboardButton('➡ Learn more')],
           [telegram.KeyboardButton('🏠 Main menu')],
           [telegram.KeyboardButton('/No')]]
@@ -722,7 +722,7 @@ def careerDevt(update, context):
     user = update.message.from_user
     logger.info("User {} has selected to 'Learn More -> Career Development'".format(user.first_name, update.message.text))
     context.bot.send_message(chat_id=update.effective_chat.id, text='​​​​Let us be the accelerator in your career journey​')
-    context.bot.send_photo(chat_id=update.effective_chat.id, photo = "https://raw.githubusercontent.com/tonyngmk/msba_bot/master/careerDevt.png")
+    context.bot.send_photo(chat_id=update.effective_chat.id, photo = "https://raw.githubusercontent.com/tonyngmk/msba_bot/master/bot_resources/careerDevt.png")
     context.bot.send_message(chat_id=update.effective_chat.id, text='''
 GSCDO is here to translate your NBS experience into the right job fits amidst a constantly changing and evolving corporate landscape. We ensure that you get the best start in your career journey.
 
