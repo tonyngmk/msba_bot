@@ -138,6 +138,9 @@ I've tried running on free tier t2 micro and the CPU Credit Usage for 3 bots and
   <img src="https://raw.githubusercontent.com/tonyngmk/my-stoic-telebot/master/cpu_cred_usage.png" />
 </p>
 
+### 3. Running
+
+In essence, clone this repo and run **bot.py**. As mentioned, bot.py must continually run for chatbot to work.
 
 ##### Dump of codes to get it hosted on AWS EC2 Linux2 AMI:
 

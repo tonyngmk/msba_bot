@@ -108,7 +108,7 @@ def learnMore(update, context):
     user = update.message.from_user
     logger.info("User {} has selected to 'Learn More'".format(user.first_name, update.message.text))
     context.bot.send_message(chat_id=update.effective_chat.id, text="🔥 Thank you for your interest! 🔥")
-    context.bot.send_message(chat_id=update.effective_chat.id, text="📚 We have a plethora of resources available to help you to make this important decision.")
+    context.bot.send_message(chat_id=update.effective_chat.id, text="📚 We have a plethora of resources available to help you to make this important decision. \n\n_Do scroll down for your keyboard options_", parse_mode=telegram.ParseMode.MARKDOWN)
     kb = [[telegram.KeyboardButton('📝 Programme Overview')],
           [telegram.KeyboardButton('❓ Why MSc Business Analytics')],
           [telegram.KeyboardButton('💯 Admission Requirements')],
