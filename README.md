@@ -20,12 +20,12 @@ Search `@MSBA_NTU_Bot` in Telegram.
 
 **Highlights in Project:**
 - Using a full programming language (Python) as backend for Telegram chatbot
-- Seamlessly adding fields of data as rows to Google Sheets
-- Capable of uploading user's attachment to Google Drive
-- Able to send images and text to replicate a full website
-- Send documents by users' command as well
+- Seamlessly adding fields of data as rows to Google Sheets from Telegram
+- Direct uploading user's attachment from Telegram to Google Drive
+- Able to send images and text to replicating/mimicking a website (MSBA)
+- Send documents (MSBA Brochure) to users via command as well
 
-Created for Chatbot Assignment in BC3409 - AI in Accounting and Finance AY2020/21 Sem 1.
+*Created for Chatbot Assignment in BC3409 - AI in Accounting and Finance AY2020/21 Sem 1.*
 
 ## Commands
 1. **/start** - Start conversation
@@ -52,6 +52,8 @@ Created for Chatbot Assignment in BC3409 - AI in Accounting and Finance AY2020/2
 </p>
 
 ## Replication instructions
+
+Section 1 and 2 describes steps to create chatbot from scratch. Skip to section 3 to run bot (bot should still be running on Amazon EC2 VM)
 
 ### 1. Google Cloud Platform (GCP)
 
@@ -158,7 +160,7 @@ In essence, clone this repo and run **bot.py**. As mentioned, bot.py must contin
 
 	git clone https://github.com/tonyngmk/msba_bot.git
 
-	cd telegram-ntudb-bot
+	cd msba_bot
 
 	chmod 755 ./bot.py
 
@@ -180,7 +182,7 @@ In essence, clone this repo and run **bot.py**. As mentioned, bot.py must contin
 
 ### Note
 
-This git repo does not have certain files containing credentials excluded in .gitignore. In case you are reusing the script, store:
+This git repo does not contain certain sensitive files (credentials) which has been excluded in .gitignore. In case you are reusing the script, store your:
 - Telegram bot's API as **botapi.txt**
 - Google Drive API as **creds.json**
 - Google OAuth2 API as **client_secrets.json**
