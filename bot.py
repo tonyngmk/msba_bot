@@ -934,7 +934,7 @@ def uploadCV1(update, context):
     logger.info("1/11 User {} has uploaded document {}.".format(user.first_name, update.message.document.file_name))
     context.bot.send_message(chat_id=update.effective_chat.id, text="⏳ Processing... one moment please")
     global cvName
-    cvName = "{}_{}".format(update.message.document.file_name, update.message.document.file_id)
+    cvName = "{}_{}".format(update.message.document.file_id, update.message.document.file_name)
     with open("preAssessmentCVs/{}".format(cvName), 'wb') as f: # copy to cwd 
         update.message.document.get_file().download(out=f)
     folder_id = '1BklyVg6ZYP1jRnAZBdRWdzumDrcoWCd6' # Folder to upload to (back of gdrive link)

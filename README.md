@@ -37,18 +37,18 @@ Created for Chatbot Assignment in BC3409 - AI in Accounting and Finance AY2020/2
 
 ### 1. /start
 <p align="center">
-  <img src="https://raw.githubusercontent.com/tonyngmk/msba_bot/master/msba_bot_Start.png" />
+  <img src="https://raw.githubusercontent.com/tonyngmk/msba_bot/master/diagrams/msba_bot_Start.png" />
 </p>
 
 ### 2. /join
 <p align="center">
-  <img src="https://raw.githubusercontent.com/tonyngmk/msba_bot/master/msba_bot_join.png" />
+  <img src="https://raw.githubusercontent.com/tonyngmk/msba_bot/master/diagrams/msba_bot_join.png" />
 </p>
 
 ### 3. /upload
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/tonyngmk/msba_bot/master/msba_bot_upload.png" />
+  <img src="https://raw.githubusercontent.com/tonyngmk/msba_bot/master/diagrams/msba_bot_upload.png" />
 </p>
 
 ## Replication instructions
@@ -84,7 +84,7 @@ Integrating Drive with Sheets
 
 This project is using Python programming language. 
 
-Perks of using a programming language instead of 3rd-party platforms such as SnatchBot is that one can be self-reliant, and harness the full capability of utilizing a full-programming language for backend logic.
+Perks of programming instead of 3rd-party platforms such as SnatchBot is that one can be more self-reliant (downtimes are controlled by you), and one can harness the full capability of utilizing a full-programming language for more complex backend logic.
 
 #### 2.1 Python-Google Spreadsheet
 
